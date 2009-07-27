@@ -8,7 +8,13 @@
     :txt: http://www.navenet.com/gerartxt.aspx
     :delimiter: !ruby/regexp /\s{3,}/
   :nova:
-    :url: http://www.novadvance.com.br/
+    :url: http://www.novadvance.com.br
     :txt: http://www.novadvance.com.br/database/lista/lista.txt
     :delimiter: !ruby/regexp /\s{3,}/
+  :albor:
+    :url: http://www.alboradainfo.com
+    :txt: http://www.alboradainfo.com/lista/lista_alborada.txt
+    :delimiter: !ruby/regexp /\s{3,}/
 
+# TODO
+# http://www.icompy.com/upload/precios/200907251505270.lista.txt
