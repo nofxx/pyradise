@@ -9,13 +9,18 @@ require 'pyradise/stat'
 #TODO: def init
 HOME = ENV['HOME'] + "/.pyradise/"
 #DataMapper.setup(:default, :adapter => 'tokyo_cabinet', :database => 'data.tct', :path => HOME)
- DataMapper.setup(:default, :adapter => 'sqlite3', :database => HOME + "py.sqlite3")
-# DataMapper.auto_migrate!
+DataMapper.setup(:default, :adapter => 'sqlite3', :database => HOME + "py.sqlite3")
+
+unless File.exists? HOME
+  FileUtils.mkdir_p HOME
+  DataMapper.auto_migrate!
+end
 
 module Pyradise
 
-  DOLETA = 2.2
-  TAX = 1.3
+  CONF = YAML.load(File.new(HOME + "conf.yml"))
+  RATE = CONF[:rate] || 2.1
+  TAX = CONF[:tax] || 1.3
 
   class << self
 
@@ -69,13 +74,6 @@ module Pyradise
       products
     end
 
-    def get_or_create_home
-      unless File.exists? HOME
-        FileUtils.mkdir_p HOME
-      end
-      HOME
-    end
-
     def list(*query)
       t = Time.now
       w = terminal_size[0]
@@ -85,20 +83,21 @@ module Pyradise
       puts "Searching #{'"' + query[0] + '"' if query[0]}... Order by: #{query[1] || 'name'}"
       puts "_" * w
       prods = q.empty? ? Product.all : Product.all(q)
-      prods.each do |prod|
+      prods.each_with_index do |prod, i|
         s = w - 35
         name = prod.name.length > s ? prod.name[0..s] + ".." : prod.name
-        puts sprintf("%-6s | %-5s | %-#{w-38}s %-3d |  R$ %d", prod.store, prod.sid,  name,  prod.price, prod.price * DOLETA * TAX)
+        out = sprintf("%-6s | %-5s | %-#{w-38}s %-3d |  R$ %d", prod.store, prod.sid,  name,  prod.price, prod.price * RATE * TAX)
+        puts i % 2 == 0 ? bold(out) : out
       end
       puts "_" * w
-      puts "Total: #{prods.length} (#{Time.now - t}s)"
+      puts green("Total: #{prods.length} (#{Time.now - t}s)")
     end
 
-    def view(sid)
+    def view(sid=nil)
       if !sid
-        puts "Use: pyradise view <ID>"
+        puts red("Use: pyradise view <ID>")
       elsif !prod = Product.first(:sid => sid.to_i)
-        puts "Product not found."
+        puts yellow("Product not found.")
       else
         w = terminal_size[0] - 20
         prices = prod.prices
@@ -119,8 +118,9 @@ module Pyradise
       `stty size`.split.map { |x| x.to_i }.reverse
     end
 
-    def red(txt)
-      "[e[31m#{txt}e[0m]"
-    end
+    def red(txt);      "\e[31m#{txt}\e[0m";    end
+    def green(txt);    "\e[32m#{txt}\e[0m";    end
+    def yellow(txt);   "\e[33m#{txt}\e[0m";    end
+    def bold(txt);   "\e[2m#{txt}\e[0m";    end
   end
 end
