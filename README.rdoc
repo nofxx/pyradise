@@ -10,24 +10,40 @@ Fetch/search and store Paraguay's prices!
 
     sudo gem install nofxx-pyradise
 
+
 == Use
 
 Fetch all:
 
     pyradise fetch
 
+
 List all:
 
     pyradise list
 
-Search for a new 2TB Sata drive:
 
-    pyradise list SATA2
+Search for a new 1TB Sata drive:
+
+    pyradise list SATA2%1000
+
+    Searching "SATA2%1000"... Order by: name
+    ____________________________________________________________
+    master | 56446 | HD SATA2-1000G MAXTOR 7200    96  |  R$ 274
+    master | 21054 | HD SATA2-1000G SAMSUNG 5400   87  |  R$ 248
+    master | 17232 | HD SATA2-1000G SEAGATE 7200   93  |  R$ 265
+    ____________________________________________________________
+    Total: 3 (0.010016s)
+
 
 View the price oscillation of a item:
 
     pyradise view <ID>
 
+    07/07 =======================| 50
+    07/08 ===================| 40
+    07/09 ===============| 30
+    07/10 ==========| 25
 
 
 == Copyright
