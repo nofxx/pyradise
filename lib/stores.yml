@@ -1,0 +1,9 @@
+:stores:
+  :master:
+    :url: http://www.master10.com
+    :txt: http://www.master10.com.py/importar/arquivos/lista.master.txt
+    :delimiter: "|"
+  :nave:
+    :url: http://www.navenet.com
+    :txt: http://www.navenet.com/gerartxt.aspx
+    :delimiter: !ruby/regexp /\s{3,}/

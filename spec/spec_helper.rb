@@ -1,8 +1,9 @@
-require 'rubygems'
-require 'bacon'
+require 'spec'
 
 $LOAD_PATH.unshift(File.dirname(__FILE__))
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 require 'pyradise'
 
-Bacon.summary_on_exit
+Spec::Runner.configure do |config|
+  
+end

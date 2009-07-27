@@ -5,7 +5,7 @@ begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
     gem.name = "pyradise"
-    gem.summary = %Q{TODO}
+    gem.summary = "Paraguay gem!"
     gem.email = "x@nofxx.com"
     gem.homepage = "http://github.com/nofxx/pyradise"
     gem.authors = ["Marcos Piccinini"]
