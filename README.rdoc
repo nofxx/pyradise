@@ -1,6 +1,34 @@
-= pyradise
+= PYradise
 
-Description goes here.
+Fetch/search and store Paraguay's prices!
+
+
+== Install
+
+* dm-core
+* do_sqlite
+
+    sudo gem install nofxx-pyradise
+
+== Use
+
+Fetch all:
+
+    pyradise fetch
+
+List all:
+
+    pyradise list
+
+Search for a new 2TB Sata drive:
+
+    pyradise list SATA2
+
+View the price oscillation of a item:
+
+    pyradise view <ID>
+
+
 
 == Copyright
 

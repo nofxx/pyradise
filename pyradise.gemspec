@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{pyradise}
-  s.version = "0.0.1"
+  s.version = "0.0.2"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Marcos Piccinini"]
@@ -27,6 +27,7 @@ Gem::Specification.new do |s|
      "lib/pyradise/stat.rb",
      "lib/stores.yml",
      "pyradise.gemspec",
+     "script/console",
      "spec/pyradise/product_spec.rb",
      "spec/pyradise/stat_spec.rb",
      "spec/pyradise_spec.rb",
