@@ -2,12 +2,14 @@ require 'rubygems'
 require 'open-uri'
 require 'do_sqlite3'
 require 'dm-core'
+#require "dm-tokyo-adapter"
 require 'pyradise/product'
 require 'pyradise/stat'
 
 #TODO: def init
 HOME = ENV['HOME'] + "/.pyradise/"
-DataMapper.setup(:default, :adapter => 'sqlite3', :database => HOME + "py.sqlite3")
+#DataMapper.setup(:default, :adapter => 'tokyo_cabinet', :database => 'data.tct', :path => HOME)
+ DataMapper.setup(:default, :adapter => 'sqlite3', :database => HOME + "py.sqlite3")
 # DataMapper.auto_migrate!
 
 module Pyradise
@@ -30,9 +32,12 @@ module Pyradise
       for txt in txts
         print "Parsing #{txt[:store]}..."
         c = Product.all.length
-        Product.all(:store.like => txt[:store]).destroy
         parse(txt[:txt], txt[:delimiter]).each do |p|
-          Product.create(p.merge(:store => txt[:store]))
+          if prod = Product.first(:name => p[:name], :store => txt[:store])
+            prod.price = p[:price]
+          else
+            Product.create(p.merge(:store => txt[:store]))
+          end
         end
         puts "#{Product.all.length - c} products created."
       end
@@ -59,7 +64,7 @@ module Pyradise
       txt.each_line do |l|
         sid, name, price = l.split(del)
         next unless price
-        products << { :sid => sid, :name => name, :price => price }
+        products << { :sid => sid.strip, :name => name.strip, :price => price.to_i }
       end
       products
     end
@@ -72,19 +77,50 @@ module Pyradise
     end
 
     def list(*query)
+      t = Time.now
+      w = terminal_size[0]
       q = {}
       q.merge!(:name.like => "%#{query[0]}%") if query[0]
       q.merge!(:order => [query[1]]) if query[1]
-
+      puts "Searching #{'"' + query[0] + '"' if query[0]}... Order by: #{query[1] || 'name'}"
+      puts "_" * w
       prods = q.empty? ? Product.all : Product.all(q)
       prods.each do |prod|
-        puts sprintf("%6s | %20s %6d |  R$ %d", prod.store, prod.name,  prod.price, prod.price * DOLETA * TAX)
+        s = w - 35
+        name = prod.name.length > s ? prod.name[0..s] + ".." : prod.name
+        puts sprintf("%-6s | %-5s | %-#{w-38}s %-3d |  R$ %d", prod.store, prod.sid,  name,  prod.price, prod.price * DOLETA * TAX)
       end
-      puts "Total: #{prods.length}"
+      puts "_" * w
+      puts "Total: #{prods.length} (#{Time.now - t}s)"
+    end
+
+    def view(sid)
+      if !sid
+        puts "Use: pyradise view <ID>"
+      elsif !prod = Product.first(:sid => sid.to_i)
+        puts "Product not found."
+      else
+        w = terminal_size[0] - 50
+        prices = prod.prices
+        max = prices.values.max
+        prices.keys.sort.each do |k|
+          rel = "=" * (prices[k] * 100 / max)
+          puts "#{Time.at(k).strftime('%M/%d')} #{rel}| #{prices[k]}"
+        end
+      end
     end
 
     def clear
       Product.all.destroy
+    end
+
+    #from highliner
+    def terminal_size
+      `stty size`.split.map { |x| x.to_i }.reverse
+    end
+
+    def red(txt)
+      "[e[31m#{txt}e[0m]"
     end
   end
 end

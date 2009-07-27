@@ -13,4 +13,14 @@ describe "Product" do
     Product.first.destroy
     Product.all.should be_empty
   end
+
+  it "should store all prices" do
+    Time.stub_chain(:now, :to_i).and_return(1)
+    p = Product.create(:name => "foo", :price => 1300)
+    p.prices.should eql({1 => 1300})
+    p.prices = { 2 => 1000 }
+    p.prices.should eql({1 => 1300, 2 => 1000})
+  end
+
+
 end
