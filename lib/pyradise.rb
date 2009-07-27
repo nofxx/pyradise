@@ -64,7 +64,7 @@ module Pyradise
       txt.each_line do |l|
         sid, name, price = l.split(del)
         next unless price
-        products << { :sid => sid.strip, :name => name.strip, :price => price.to_i }
+        products << { :sid => sid.strip, :name => name.strip.gsub(/\.{2,}/, ""), :price => price.to_i }
       end
       products
     end
@@ -100,11 +100,11 @@ module Pyradise
       elsif !prod = Product.first(:sid => sid.to_i)
         puts "Product not found."
       else
-        w = terminal_size[0] - 50
+        w = terminal_size[0] - 20
         prices = prod.prices
-        max = prices.values.max
+        max = prices.values.max.to_f
         prices.keys.sort.each do |k|
-          rel = "=" * (prices[k] * 100 / max)
+          rel = "=" * (prices[k]  / max * w)
           puts "#{Time.at(k).strftime('%M/%d')} #{rel}| #{prices[k]}"
         end
       end

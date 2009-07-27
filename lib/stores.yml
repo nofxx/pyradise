@@ -7,3 +7,8 @@
     :url: http://www.navenet.com
     :txt: http://www.navenet.com/gerartxt.aspx
     :delimiter: !ruby/regexp /\s{3,}/
+  :nova:
+    :url: http://www.novadvance.com.br/
+    :txt: http://www.novadvance.com.br/database/lista/lista.txt
+    :delimiter: !ruby/regexp /\s{3,}/
+
