@@ -1,0 +1,7 @@
+= pyradise
+
+Description goes here.
+
+== Copyright
+
+Copyright (c) 2009 Marcos Piccinini. See LICENSE for details.
