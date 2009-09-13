@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
+#
 #  Pyradise
 #
 #  Created on 2008-9-4.
@@ -9,18 +10,12 @@ begin
 rescue LoadError
   # no rubygems to load, so we fail silently
 end
-
 require 'optparse'
-$LOAD_PATH.unshift(File.dirname(__FILE__))
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 require 'pyradise'
-
-
 include Pyradise
 
-OPTIONS = {
-}
-
+OPTIONS = {}
 MANDATORY_OPTIONS = %w(  )
 
 parser = OptionParser.new do |opts|
@@ -37,19 +32,7 @@ Options are:
 
 BANNER
   opts.separator ""
-
-  opts.on("-s", "--search=SEARCH", String,
-          "Search for.") { |OPTIONS[:search]| }
-
-
-  opts.on("-v", "--version",
-          "Show program version") {   puts "Pyradise v001"; exit }
-
   opts.parse!(ARGV)
-
-  if MANDATORY_OPTIONS && MANDATORY_OPTIONS.find { |option| OPTIONS[option.to_sym].nil? }
-    puts opts; exit
-  end
 end
 
 if ARGV.empty?
