@@ -14,7 +14,7 @@
   :albor:
     :url: http://www.alboradainfo.com
     :txt: http://www.alboradainfo.com/lista/lista_alborada.txt
-    :delimiter: !ruby/regexp /\s{3,}/
+    :delimiter: !ruby/regexp /\s{1,}/
 
 # TODO
 # http://www.icompy.com/upload/precios/200907251505270.lista.txt

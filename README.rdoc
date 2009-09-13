@@ -5,11 +5,7 @@ Fetch/search and store Paraguay's prices!
 
 == Install
 
-* dm-core
-* do_sqlite
-
     sudo gem install nofxx-pyradise
-
 
 == Use
 
@@ -25,7 +21,7 @@ List all:
 
 Search for a new 1TB Sata drive:
 
-    pyradise list SATA2%1000
+    pyradise search SATA2%1000
 
     Searching "SATA2%1000"... Order by: name
     ____________________________________________________________
@@ -38,7 +34,7 @@ Search for a new 1TB Sata drive:
 
 View the price oscillation of a item:
 
-    pyradise view <ID>
+    pyradise info <ID>
 
     07/07 =======================| 50
     07/08 ===================| 40

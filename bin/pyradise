@@ -8,7 +8,6 @@ begin
   require 'rubygems'
 rescue LoadError
   # no rubygems to load, so we fail silently
-  require 'lib/pyradise'
 end
 
 require 'optparse'
@@ -28,9 +27,13 @@ parser = OptionParser.new do |opts|
   opts.banner = <<BANNER
 Pyradise - PY ftw
 
-Usage: #{File.basename($0)} command [options]
+Usage: #{File.basename($0)} command [args]
 
 Options are:
+
+   fetch        - Get fresh info
+   list/search  - List and filter items
+   info/show    - More info about an item
 
 BANNER
   opts.separator ""

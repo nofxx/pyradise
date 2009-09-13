@@ -13,10 +13,6 @@ describe "Pyradise" do
     Pyradise.fetch.should be_true
   end
 
-  it "should create a home folder" do
-    Pyradise.get_or_create_home.should match("pyradise")
-  end
-
 
 end
 

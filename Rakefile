@@ -9,8 +9,7 @@ begin
     gem.email = "x@nofxx.com"
     gem.homepage = "http://github.com/nofxx/pyradise"
     gem.authors = ["Marcos Piccinini"]
-    gem.add_dependency 'dm-core'
-    gem.add_dependency 'do_sqlite3'
+    gem.add_dependency 'sequel'
   end
 rescue LoadError
   puts "Jeweler (or a dependency) not available. Install it with: sudo gem install jeweler"

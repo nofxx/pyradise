@@ -1,38 +1,16 @@
-class Product
- include DataMapper::Resource
+class Product < Sequel::Model
 
-  property :id, Serial
-  property :sid, String
-  property :name, String, :nullable => false, :length => (2..20)
-  property :price, Integer
-  property :store, String
-  property :prices, Text
-  # has n, :orders
-
-  # def self.count
-  #   all.length
-  # end
-  # def to_param
-  #   id.to_s
-  # end
-  before :save do
-#    self[:prices] = Marshal.dump({ Time.now.to_i => price })
+  def before_save
     phist = { Time.now.to_i => price }
     self[:prices] = Marshal.dump(prices ? prices.merge(phist) : phist)
-
   end
 
   def prices
     self[:prices] ? Marshal.load(self[:prices]) : nil
   end
 
-  def prices=(price)
-    self[:prices] = Marshal.dump(prices ? prices.merge(price) : price)
+  def new_price!(np)
+    self.update(:prices => Marshal.dump(prices ? prices.merge({Time.now.to_i => np}) : np))
   end
 
-
-  #no idea why..
-  def self.identity_field
-    "product"
-  end
 end
