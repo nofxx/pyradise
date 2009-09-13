@@ -4,7 +4,12 @@ require 'sequel'
 
 #TODO: def init
 HOME = ENV['HOME'] + "/.pyradise"
-FileUtils.mkdir_p HOME unless File.exists? HOME
+unless File.exists? HOME
+  FileUtils.mkdir_p HOME
+  conf = open(HOME + "/conf.yml", "wb")
+  conf.write(":rate: 2.0\n:tax: 1.3\n")
+  conf.close
+end
 
 DB = Sequel.connect("sqlite://#{HOME}/py.sqlite3")
 require 'pyradise/product'
@@ -18,7 +23,7 @@ end
 module Pyradise
 
   CONF = YAML.load(File.new(HOME + "/conf.yml"))
-  RATE = CONF[:rate] || 2.1
+  RATE = CONF[:rate] || 2.0
   TAX = CONF[:tax] || 1.3
 
   class << self
@@ -33,7 +38,7 @@ module Pyradise
     end
 
     def fetch
-      create fetch_stores
+      create from_stores
     end
 
     def list(*query)
@@ -96,10 +101,10 @@ module Pyradise
         Product.create(t.merge(:store => store))
       end
       rescue  => e
-      puts "SQLITE Err #{e}, #{t.inspect} - #{store} #{prod}"
+      puts "SQLITE Err => #{e}, #{t.inspect} - #{store} #{prod}"
     end
 
-    def fetch_stores
+    def from_stores
       stores = []
       for store in YAML.load(File.new(File.dirname(__FILE__) + '/stores.yml'))[:stores]
         data = {}
