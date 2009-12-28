@@ -1,4 +1,5 @@
-class Product < Sequel::Model
+module Pyradise
+  class Product < Sequel::Model
 
   def before_save
     phist = { Time.now.to_i => price }
@@ -13,4 +14,5 @@ class Product < Sequel::Model
     self.update(:prices => Marshal.dump(prices ? prices.merge({Time.now.to_i => np}) : np))
   end
 
+  end
 end

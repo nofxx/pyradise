@@ -15,7 +15,6 @@ $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 require 'pyradise'
 include Pyradise
 
-OPTIONS = {}
 MANDATORY_OPTIONS = %w(  )
 
 parser = OptionParser.new do |opts|
@@ -26,11 +25,21 @@ Usage: #{File.basename($0)} command [args]
 
 Options are:
 
-   fetch        - Get fresh info
-   list/search  - List and filter items
-   info/show    - More info about an item
+   fetch         -  Start/refresh database.
+   list/search   -  List and filter items
+     -o --order  -  Order by: name, price, store.
+   info/show     -  More info about an item
+   clear         -  Wipe out the database
+
+Common usage:
+
+   pyradise fetch
+    " list mb i7        - Searches for Intel i7 mobos.
+    " list mem -o name  - Searches for 'mem' ordered by name.
+    " info <sid>        - Show price history of the item.
 
 BANNER
+  opts.on("-o", "--order ORDER", String, "Table order" ) { |order| Options[:order] = order }
   opts.separator ""
   opts.parse!(ARGV)
 end
@@ -39,5 +48,5 @@ if ARGV.empty?
   puts parser.banner
   exit
 else
-  Pyradise.run! ARGV, OPTIONS
+  Pyradise::Cli.run! ARGV
 end
