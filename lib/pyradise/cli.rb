@@ -18,16 +18,18 @@ module Pyradise
       end
 
       def list(*query)
-        p query
         t = Time.now
         w = terminal_size[0]
         s = w - 36
         puts "\n#{t(:search)} #{'"' + green(query.join(" ")) + '"' if query[0]}... #{t(:order)}: #{green(Options[:order])}"
-#        puts "_" * w
+        # puts "_" * w
         puts
         prods = Product.filter(:name.like("%#{query.join("%")}%")).order(Options[:order])
         prods.each_with_index do |prod, i|
           name = prod.name.length > s ? prod.name[0..s] + ".. " : prod.name + " "
+          #
+          # Replace each occurrence with color
+          # Need to ensure the length of the string for some reason.. =/
           for q in query
             b = i % 2 == 0 ? "\e[0m\e[2m" : "\e[0m\e[0m"
             replaces = name.scan(/#{q}/i).length
@@ -35,8 +37,9 @@ module Pyradise
             name += "." until name.length > w - 23
           end
           total_price = prod.price * Options[:rate] * Options[:tax]
+          #
+          # Format the output
           out = sprintf("%-6s | %-6s | %-#{s}s %-3d |  R$ %s", prod.store, prod.sid,  name,  prod.price, yellow(total_price.to_i))
-
           puts i % 2 == 0 ? bold(out) : out
         end
         puts "_" * w
@@ -156,9 +159,9 @@ module Pyradise
       def green(txt);    "\e[32m#{txt}\e[0m";    end
       def yellow(txt);   "\e[33m#{txt}\e[0m";    end
       def bold(txt);      "\e[2m#{txt}\e[0m";    end
+
     end
 
-
-
   end
+
 end
