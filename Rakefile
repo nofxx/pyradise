@@ -10,6 +10,7 @@ begin
     gem.homepage = "http://github.com/nofxx/pyradise"
     gem.authors = ["Marcos Piccinini"]
     gem.add_dependency 'sequel'
+    gem.add_dependency 'sqlite3-ruby'
   end
 rescue LoadError
   puts "Jeweler (or a dependency) not available. Install it with: sudo gem install jeweler"
