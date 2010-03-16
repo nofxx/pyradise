@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{pyradise}
-  s.version = "0.3.4"
+  s.version = "0.3.5"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Marcos Piccinini"]
-  s.date = %q{2010-01-16}
+  s.date = %q{2010-03-15}
   s.default_executable = %q{pyradise}
   s.email = %q{x@nofxx.com}
   s.executables = ["pyradise"]
@@ -40,7 +40,7 @@ Gem::Specification.new do |s|
   s.homepage = %q{http://github.com/nofxx/pyradise}
   s.rdoc_options = ["--charset=UTF-8"]
   s.require_paths = ["lib"]
-  s.rubygems_version = %q{1.3.5}
+  s.rubygems_version = %q{1.3.6}
   s.summary = %q{Paraguay gem!}
   s.test_files = [
     "spec/spec_helper.rb",

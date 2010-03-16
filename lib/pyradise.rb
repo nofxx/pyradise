@@ -1,5 +1,6 @@
 require 'open-uri'
 require 'sequel'
+require 'yaml'
 
 HOME = ENV['HOME'] + "/.pyradise"
 unless File.exists? HOME
